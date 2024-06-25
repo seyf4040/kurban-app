@@ -11,8 +11,8 @@ void shareVideoViaWhatsApp(String phoneNumber, String videoPath) async {
     },
   );
 
-  if (await canLaunch(uri.toString())) {
-    await launch(uri.toString());
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri);
   } else {
     throw 'Could not launch $uri';
   }

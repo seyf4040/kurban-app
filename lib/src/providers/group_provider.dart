@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kurban_app/GroupStorage.dart';
-import 'package:kurban_app/models.dart';
+
+import 'package:kurban_app/src/models/group.dart';
+import 'package:kurban_app/src/services/group_storage.dart';
 
 class GroupProvider with ChangeNotifier {
   List<Group> _groups = [];

@@ -1,21 +1,4 @@
-
-class StandalonePerson {
-  String name;
-  String surname;
-  String phoneNumber;
-  String numPart;
-
-  StandalonePerson({required this.name, required this.surname, required this.phoneNumber, required this.numPart});
-}
-
-class AttachedPerson {
-  String name;
-  String surname;
-  String numPart;
-  StandalonePerson attachedTo;
-
-  AttachedPerson({required this.name, required this.surname, required this.attachedTo, required this.numPart});
-}
+import 'package:kurban_app/src/models/person.dart';
 
 class Group {
   String groupName;

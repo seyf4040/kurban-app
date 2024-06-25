@@ -1,6 +1,9 @@
 import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
-import 'models.dart'; // Make sure to import your models
+
+import 'package:kurban_app/src/models/group.dart';
+
 
 class GroupStorage {
   static const String _groupsKey = 'groups';

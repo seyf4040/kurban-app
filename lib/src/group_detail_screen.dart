@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:kurban_app/SelectVideo.dart';
-import 'models.dart';
+
+import 'package:kurban_app/src/models/group.dart';
+import 'package:kurban_app/src/services/generate_pdf.dart';
+import 'package:kurban_app/src/models/person.dart';
 
 class GroupDetailsScreen extends StatelessWidget {
   final Group group;
 
-  GroupDetailsScreen({required this.group});
+  const GroupDetailsScreen({super.key, required this.group});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,11 @@ class GroupDetailsScreen extends StatelessWidget {
         title: Text(group.groupName),
         actions: [
           IconButton(
-            icon: Icon(Icons.video_call),
+            icon: const Icon(Icons.print),
+            onPressed: () => GeneratePdf().showPrintDialog(context, group),
+          ),
+          IconButton(
+            icon: const Icon(Icons.video_call),
             onPressed: () => pickAndShareVideo(group),
           ),
         ],
@@ -60,5 +66,9 @@ class GroupDetailsScreen extends StatelessWidget {
         },
       ),
     );
-  }
+  }  
+}
+
+void pickAndShareVideo(Group group) {
+  // Implement your video picking and sharing logic here
 }

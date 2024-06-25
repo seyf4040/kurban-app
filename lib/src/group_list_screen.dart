@@ -1,16 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:kurban_app/GroupDetailScreen.dart';
-import 'package:kurban_app/GroupFormScreen.dart';
-import 'package:kurban_app/GroupProvider.dart';
-import 'package:kurban_app/GroupStorage.dart';
-import 'package:kurban_app/SettingsScreen.dart';
+
 import 'package:provider/provider.dart';
 
-import 'models.dart';
+import 'package:kurban_app/src/models/group.dart';
+import 'package:kurban_app/src/providers/group_provider.dart';
+import 'package:kurban_app/src/services/generate_pdf.dart';
+import 'package:kurban_app/src/services/group_storage.dart';
+import 'package:kurban_app/src/group_detail_screen.dart';
+import 'package:kurban_app/src/group_form_screen.dart';
+
 
 
 class GroupListScreen extends StatefulWidget {
+  const GroupListScreen({super.key});
+
   @override
   _GroupListScreenState createState() => _GroupListScreenState();
 }
@@ -24,17 +28,15 @@ class _GroupListScreenState extends State<GroupListScreen> {
     try {
       _loadGroupsFuture = _loadGroups();
     } catch (e) {
-      print("Error in _loadGroups: $e");
+      if (kDebugMode) {
+        print("Error in _loadGroups: $e");
+      }
     }
   }
 
   Future<void> _loadGroups() async {
-    try {
       final groups = await GroupStorage().loadGroups();
       Provider.of<GroupProvider>(context, listen: false).setGroups(groups.cast<Group>());
-    } catch (e) {
-      print("Error in _loadGroups: $e");
-    }
   }
 
   @override
@@ -43,12 +45,14 @@ class _GroupListScreenState extends State<GroupListScreen> {
       future: _loadGroupsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           );
         } else if (snapshot.hasError) {
-          print("Snapshot error: ${snapshot.error}");
-          return Scaffold(
+          if (kDebugMode) {
+            print("Snapshot error: ${snapshot.error}");
+          }
+          return const Scaffold(
             body: Center(child: Text('Error loading groups')),
           );
         } else {
@@ -64,6 +68,13 @@ class _GroupListScreenState extends State<GroupListScreen> {
               }
 
               return Scaffold(
+                 appBar: AppBar(
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.print),
+                      onPressed: () => GeneratePdf().showPrintAllDialog(context, groupProvider.groups),
+                    ),
+                ],),
                 body: ListView.builder(
                   itemCount: groupProvider.groups.length,
                   itemBuilder: (context, index) {
@@ -78,7 +89,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                         // contentPadding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
-                          side: BorderSide(color: Colors.grey, width: 2),
+                          side: const BorderSide(color: Colors.grey, width: 2),
                           
                         ),
                         title: Row(
@@ -100,7 +111,11 @@ class _GroupListScreenState extends State<GroupListScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.print),
+                              onPressed: () => GeneratePdf().showPrintDialog(context, group),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit),
                               onPressed: () {
                                 Navigator.push(
                                   context,
@@ -111,7 +126,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                               },
                             ),
                             IconButton(
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               onPressed: () {
                                 groupProvider.deleteGroup(index);
                                 GroupStorage().saveGroups(groupProvider.groups);
@@ -124,11 +139,11 @@ class _GroupListScreenState extends State<GroupListScreen> {
                   },
                 ),
                 floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.add),
+                  child: const Icon(Icons.add),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => GroupFormScreen()),
+                      MaterialPageRoute(builder: (context) => const GroupFormScreen()),
                     );
                   },
                 ),
