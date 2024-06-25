@@ -103,7 +103,7 @@ class _GroupListScreenState extends State<GroupListScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => GroupDetailsScreen(group: group),
+                              builder: (context) => GroupDetailsScreen(group: group, groupIndex: index,),
                             ),
                           );
                         },

@@ -6,6 +6,8 @@ import 'package:kurban_app/src/models/person.dart';
 import 'package:kurban_app/src/providers/group_provider.dart';
 
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
