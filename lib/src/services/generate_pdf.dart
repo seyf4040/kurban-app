@@ -29,13 +29,17 @@ class GeneratePdf {
             child: PdfPreview(
               initialPageFormat: PdfPageFormat.a4.landscape,
               build: (format) async {
+                print("ici?");
                 var pdf = pw.Document();
                 try {
-                  _logo = await rootBundle.loadString('phpl_logo.svg');
+                  _logo = await rootBundle.loadString('images/phpl_logo.svg');
                 } catch (e) {
                   _logo = '';
+                  print("ici?");
                   if (kDebugMode) {
+                    print("ici?");
                     print("Error loading logo: $e");
+                    
                   }
                 }
                 for (var group in groups) {
@@ -74,7 +78,7 @@ class GeneratePdf {
               build: (format) async {
                 var pdf = pw.Document();
                 try {
-                  _logo = await rootBundle.loadString('phpl_logo.svg');
+                  _logo = await rootBundle.loadString('images/phpl_logo.svg');
                 } catch (e) {
                   _logo = '';
                   if (kDebugMode) {

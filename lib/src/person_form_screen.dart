@@ -72,12 +72,8 @@ class _PersonFormScreenState extends State<PersonFormScreen> {
       }
       final groupProvider = Provider.of<GroupProvider>(context, listen: false);
 
-      if (widget.group == null) {
-        groupProvider.addGroup(widget.group);
-      } else {
-        groupProvider.editGroup(widget.groupIndex, widget.group);
-      }
-
+      groupProvider.editGroup(widget.groupIndex, widget.group);
+    
       // Save the updated group list to SharedPreferences
       GroupStorage().saveGroups(groupProvider.groups);
       
