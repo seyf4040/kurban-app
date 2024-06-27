@@ -29,21 +29,35 @@ class GeneratePdf {
             child: PdfPreview(
               initialPageFormat: PdfPageFormat.a4.landscape,
               build: (format) async {
-                print("ici?");
                 var pdf = pw.Document();
                 try {
-                  _logo = await rootBundle.loadString('images/phpl_logo.svg');
+                  _logo = await rootBundle.loadString('assets/images/phpl_logo.svg');
                 } catch (e) {
                   _logo = '';
-                  print("ici?");
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Error loading Logo!'),
+                        content: Text("Error loading logo: $e"),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Close'),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close dialog
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                   if (kDebugMode) {
-                    print("ici?");
                     print("Error loading logo: $e");
                     
                   }
                 }
                 for (var group in groups) {
-                  pdf = await _generatePdf(format, pdf, group);
+                  pdf = await _generatePdf(context, format, pdf, group);
                 }
                 return pdf.save();
                 },
@@ -78,14 +92,31 @@ class GeneratePdf {
               build: (format) async {
                 var pdf = pw.Document();
                 try {
-                  _logo = await rootBundle.loadString('images/phpl_logo.svg');
+                  _logo = await rootBundle.loadString('assets/images/phpl_logo.svg');
                 } catch (e) {
                   _logo = '';
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Error loading Logo!'),
+                        content: Text("Error loading logo: $e"),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Close'),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close dialog
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
                   if (kDebugMode) {
                     print("Error loading logo: $e");
                   }
                 }
-                pdf = await _generatePdf(format, pdf, group);
+                pdf = await _generatePdf(context, format, pdf, group);
                 return pdf.save();
                 },
               allowPrinting: true,
@@ -105,7 +136,7 @@ class GeneratePdf {
     );
   }
 
-  Future<pw.Document> _generatePdf(PdfPageFormat format, pw.Document pdf, Group group) async {
+  Future<pw.Document> _generatePdf(BuildContext context, PdfPageFormat format, pw.Document pdf, Group group) async {
     try {
       pdf.addPage(
         pw.MultiPage(
@@ -123,6 +154,23 @@ class GeneratePdf {
         ),
       );
     } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error creating pdf!'),
+            content: Text("Error creating pdf: $e"),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Close'),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
       if (kDebugMode) {
         print("Error creating pdf: $e");
       }

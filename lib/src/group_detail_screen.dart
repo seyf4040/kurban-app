@@ -67,10 +67,11 @@ class GroupDetailsScreen extends StatelessWidget {
                   color: const Color.fromARGB(255, 235, 235, 235),
                   child: ListTile(
                     title: Text('${member.name} ${member.surname}'),
-                    subtitle: Row(
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Telefon numarası: ${member.phoneNumber}'),
-                        SizedBox(width: 20,),
+                        // const SizedBox(height: 5,),
                         Text('Hisse sayısı: ${member.numPart}/7'),
                       ],
                     ),
@@ -92,10 +93,11 @@ class GroupDetailsScreen extends StatelessWidget {
                   color: const Color.fromARGB(255, 235, 235, 235),
                   child: ListTile(
                     title: Text('${member.name} ${member.surname}'),
-                    subtitle: Row(
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Aralık yapan: ${member.attachedTo.name} ${member.attachedTo.surname}'),
-                        SizedBox(width: 20,),
+                        // const SizedBox(height: 5,),
                         Text('Hisse sayısı: ${member.numPart}/7')
                       ],
                     ),
